@@ -3,6 +3,7 @@ const storyParts = [
     {
         day: 1,
         title: "Der Anfang",
+        image: "images/tag1.jpg", // Beispiel: Lokales Bild. Setze auf null, wenn kein Bild vorhanden ist.
         content: `Es war Heiligabend, 15 Uhr, und Yvonne stand am Fenster wie ein Wachposten. "Er kommt nicht. ER KOMMT WIEDER NICHT!"
 
 Steffen blätterte seelenruhig in seiner Zeitung. "Schatz, du hast genau die gleichen Worte letztes Jahr gesagt. Und das Jahr davor. Und—"
@@ -14,6 +15,7 @@ Steffen blätterte seelenruhig in seiner Zeitung. "Schatz, du hast genau die gle
     {
         day: 2,
         title: "Die Zwillinge",
+        image: null,
         content: `"WAS HAST DU GESAGT?"
 
 "Nichts, Mama. Du bist wunderschön, wenn du wütend bist."
@@ -27,6 +29,7 @@ Die Zwillinge Anna und Emma kicherten in ihr Handy.
     {
         day: 3,
         title: "Der Wettpool",
+        image: null,
         content: `"Zeigt her!" Yvonne schnappte sich Annas Handy. Auf dem Display war eine WhatsApp-Gruppe namens "Onkel Thomas Unpünktlichkeits-Wettpool".
 
 "Ihr habt WETTEN abgeschlossen, wann euer Onkel kommt?!"
@@ -40,6 +43,7 @@ Die Zwillinge Anna und Emma kicherten in ihr Handy.
     {
         day: 4,
         title: "Christof kommt",
+        image: "images/tag4.jpg", // Beispiel: Lokales Bild. Setze auf null, wenn kein Bild vorhanden ist.
         content: `In diesem Moment klingelte es. Christof stand vor der Tür mit einem Grinsen und sechs – SECHS – riesigen Einkaufstaschen.
 
 "FROHE WEIHNACHTEN! Macht Platz, der Meisterkoch ist da!"
@@ -51,6 +55,7 @@ Die Zwillinge Anna und Emma kicherten in ihr Handy.
     {
         day: 5,
         title: "Der Ofen",
+        image: null,
         content: `"Hinten links, wie jeden—"
 
 Aber Christof war bereits verschwunden. Sekunden später hörte man: "YVONNE! WARUM IST DEIN OFEN SO KLEIN?!"
@@ -64,6 +69,7 @@ Kirstin kam herein, beladen mit Tüten. "Hallo zusammen! Tut mir leid wegen ihm.
     {
         day: 6,
         title: "Die Messer",
+        image: null,
         content: `"Ein bisschen?", aus der Küche: "ICH BRAUCHE EINEN GRÖSSEREN TOPF! UND WO SIND DIE GUTEN MESSER?!"
 
 "Die sind in der—" begann Yvonne.
@@ -77,6 +83,7 @@ Steffen flüsterte Kirstin zu: "Ist er immer so?"
     {
         day: 7,
         title: "Das Küchenchaos",
+        image: null,
         content: `"WER HAT HIER GEFLÜSTERT?! ICH HÖRE ALLES!", brüllte Christof aus der Küche.
 
 Eine Stunde verging. Aus der Küche kamen Geräusche wie aus einem Action-Film: Töpfe knallten, Wasser zischte, dann ein lauter Fluch ("NEIN NEIN NEIN, DU DUMME SOSSE, NICHT ANBRENNEN!"), gefolgt von erleichtertem Seufzen.
@@ -86,6 +93,7 @@ Yvonne stand wieder am Fenster. "16:15 Uhr. SECHZEHN UHR FÜNFZEHN!"`
     {
         day: 8,
         title: "Der Anruf",
+        image: null,
         content: `"Mama, du musst dich entspannen", sagte Lea.
 
 "WIE BITTE?!"
@@ -103,6 +111,7 @@ Das Telefon klingelte. Yvonne riss es ans Ohr. "THOMAS!"
     {
         day: 9,
         title: "Die Ausrede",
+        image: null,
         content: `"Genau! Also sind wir gleich da!"
 
 "WARUM WARST DU AN DER TANKSTELLE?! DU WUSSTEST SEIT DREI WOCHEN, DASS HEUTE WEIHNACHTEN IST!"
@@ -117,6 +126,7 @@ Das Telefon klingelte. Yvonne riss es ans Ohr. "THOMAS!"
     {
         day: 10,
         title: "Die Drohung",
+        image: null,
         content: `"THOMAS, ICH ERWARTE EUCH IN ZEHN MINUTEN. NICHT ELF. NICHT FÜNFZEHN. ZEHN!"
 
 "Versprochen!"
@@ -128,6 +138,7 @@ Als es endlich klingelte, riss Yvonne die Tür so heftig auf, dass sie fast aus 
     {
         day: 11,
         title: "Thomas kommt an",
+        image: null,
         content: `"THOMAS FRIEDRICH Drost"
 (Sein zweiter Name war nicht Friedrich, aber das machte es dramatischer.)
 
@@ -140,6 +151,7 @@ Thomas stand da mit seinem typischen "Ich-weiß-ich-hab-Mist-gebaut-aber-ich-bin
     {
         day: 12,
         title: "Der Gewinner",
+        image: null,
         content: `"Ich hab auf 17:30 getippt, verdammt!", rief Ina hinter ihm und schaute auf ihr Handy. "Emma gewinnt!"
 
 "IHR WETTET IMMER NOCH?!", Yvonne war fassungslos.
@@ -151,6 +163,7 @@ Ben schob sich an allen vorbei, das Fußballtrikot gut sichtbar unter seiner Jac
     {
         day: 13,
         title: "Ben und das Derby",
+        image: null,
         content: `"Hey Yvonne! Gibt's WLAN? Das Derby läuft gleich!"
 
 "BEN! WEIHNACHTEN!", zischte Ina.
@@ -166,6 +179,7 @@ Ben schob sich an allen vorbei, das Fußballtrikot gut sichtbar unter seiner Jac
     {
         day: 14,
         title: "Geschwisterstreit",
+        image: null,
         content: `"Aber—"
 
 "NEIN."
@@ -183,6 +197,7 @@ Chrissy verdrehte die Augen. "Ben, du bist so peinlich."
     {
         day: 15,
         title: "Christofs Küche",
+        image: null,
         content: `Aus der Küche brüllte Christof: "THOMAS, BIST DU DAS?! KOMMST DU IN MEINE KÜCHE, SCHMEIS ICH DICH MIT EINER PFANNE RAUS!"
 
 "Ich wollte nur—"
@@ -198,6 +213,7 @@ Ein Holzlöffel flog durch die Tür und verfehlte Thomas nur knapp.
     {
         day: 16,
         title: "Der TikTok-Streit",
+        image: null,
         content: `Lea, Anna und Emma beäugten Ben kritisch. "Fußball schauen an Weihnachten?", fragte Anna abschätzig.
 
 "Das ist asozial", ergänzte Emma.
@@ -211,6 +227,7 @@ Ein Holzlöffel flog durch die Tür und verfehlte Thomas nur knapp.
     {
         day: 17,
         title: "Die Kampfansage",
+        image: null,
         content: `"OH NEIN, ER HAT ES GEWAGT!", Anna sprang auf.
 
 "KAMPFANSAGE!", rief Emma.
@@ -224,6 +241,7 @@ Ein Holzlöffel flog durch die Tür und verfehlte Thomas nur knapp.
     {
         day: 18,
         title: "Inas Dekoration",
+        image: null,
         content: `Ina hatte sich bereits ans Werk gemacht. Mit der Effizienz einer Spezialeinheit verwandelte sie das Esszimmer. Goldene Bänder wirbelten durch die Luft, Kerzen erschienen wie durch Magie, Tannenzweige wurden kunstvoll drapiert.
 
 "Ina, kannst du auch Wunder?", fragte Steffen bewundernd.
@@ -237,6 +255,7 @@ Ein Holzlöffel flog durch die Tür und verfehlte Thomas nur knapp.
     {
         day: 19,
         title: "Kirstins Gesang",
+        image: null,
         content: `Kirstin hatte sich aufs Sofa gesetzt und summte leise vor sich hin. Thomas setzte sich neben sie.
 
 "Kirstin, singst du uns später was?"
@@ -252,6 +271,7 @@ Ein Holzlöffel flog durch die Tür und verfehlte Thomas nur knapp.
     {
         day: 20,
         title: "Der Knall",
+        image: null,
         content: `Plötzlich ein lauter Knall aus der Küche. Alle erstarrten.
 
 "Christof?", fragte Yvonne vorsichtig. "Alles okay?"
@@ -271,6 +291,7 @@ Stille.
     {
         day: 21,
         title: "Bens Handy",
+        image: null,
         content: `"ICH HÖRE EUCH IMMER NOCH!"
 
 Ben hatte heimlich sein Handy gezückt und streamte das Spiel. Mit der Lautstärke auf stumm saß er in der Ecke und starrte auf den Bildschirm.
@@ -290,6 +311,7 @@ Ben wusste, das war ernst. Seufzend legte er das Handy weg.`
     {
         day: 22,
         title: "Das Essen ist fertig",
+        image: "images/tag22.jpg", // Beispiel: Lokales Bild. Setze auf null, wenn kein Bild vorhanden ist.
         content: `Endlich, nach dramatischen drei Stunden, verkündete Christof: "DAS ESSEN IST FERTIG! Und es ist PERFEKT! Wie ICH!"
 
 "Bescheiden bist du auch noch", murmelte Thomas.
@@ -307,6 +329,7 @@ Alle versammelten sich am Tisch. Das Essen sah tatsächlich aus wie aus einem Ho
     {
         day: 23,
         title: "Kirstin singt",
+        image: null,
         content: `Nach dem Essen – und Christofs Schokoladen-Soufflé, das Steffen beinahe zum Weinen brachte – räusperte sich Kirstin.
 
 "Ich könnte... vielleicht... ein Lied singen?"
@@ -324,6 +347,7 @@ Dann sagte Ben: "Okay, das war... wow."`
     {
         day: 24,
         title: "Das Ende",
+        image: "images/tag24.jpg", // Beispiel: Lokales Bild. Setze auf null, wenn kein Bild vorhanden ist.
         content: `Spät am Abend, als die Kinder in ihre Zimmer verzogen hatten (Ben natürlich, um das Spiel nachzuholen), saßen die Erwachsenen zusammen.
 
 "Thomas", sagte Yvonne ernst.
@@ -458,7 +482,15 @@ function showStoryContent(day) {
     
     modalTitle.textContent = story.title;
     modalDay.textContent = `Tag ${day}`;
-    modalBody.innerHTML = story.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    
+    // Build content with optional image
+    let contentHTML = '';
+    if (story.image) {
+        contentHTML += `<div class="story-image-container"><img src="${story.image}" alt="${story.title}" class="story-image" onerror="this.style.display='none'"></div>`;
+    }
+    contentHTML += story.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    
+    modalBody.innerHTML = contentHTML;
     
     modal.classList.add('active');
     

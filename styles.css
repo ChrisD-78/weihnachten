@@ -1222,6 +1222,35 @@ body.loaded {
 .modal-body p:nth-child(5) { animation-delay: 0.5s; }
 .modal-body p:nth-child(n+6) { animation-delay: 0.6s; }
 
+/* Story Images */
+.story-image-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.story-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(255, 23, 68, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+    max-height: 400px;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.story-image-container + p {
+    animation-delay: 0.3s;
+}
+
 @keyframes headerGradient {
     0%, 100% {
         background-position: 0% 50%;
