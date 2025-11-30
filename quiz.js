@@ -1300,18 +1300,17 @@ function showChallenges() {
     let html = `
         <div class="challenges-container">
             <h3>⭐ Challenges - Extrapunkte sammeln!</h3>
-            <p class="quiz-message">Erfülle die Challenges, lade dein Foto hoch und stimme für die besten Fotos ab!</p>
+            <p class="quiz-message">Erfülle die Challenges und sammle Extrapunkte!</p>
             <div class="challenges-grid">
     `;
     
     challenges.forEach(challenge => {
-        const completed = userCompletedChallenges[challenge.id]?.imageData ? true : false;
-        const imageData = userCompletedChallenges[challenge.id]?.imageData || null;
+        const completed = userCompletedChallenges[challenge.id] ? true : false;
         
         // Count submissions for this challenge
         let submissionCount = 0;
         Object.keys(userChallenges).forEach(userId => {
-            if (userChallenges[userId][challenge.id]?.imageData) {
+            if (userChallenges[userId][challenge.id]) {
                 submissionCount++;
             }
         });
@@ -1325,22 +1324,21 @@ function showChallenges() {
                 </div>
                 <p class="challenge-description">${challenge.description}</p>
                 <div class="challenge-info">
-                    <span class="challenge-submissions">📸 ${submissionCount} Einreichungen</span>
+                    <span class="challenge-submissions">✅ ${submissionCount} Teilnahmen</span>
                 </div>
                 ${completed ? `
                     <div class="challenge-completed">
-                        <span class="challenge-status">✅ Foto hochgeladen</span>
+                        <span class="challenge-status">✅ Challenge abgeschlossen</span>
                     </div>
                 ` : `
                     <div class="challenge-upload">
-                        <input type="file" id="challenge-${challenge.id}" accept="image/*,video/*" capture="environment" style="display: none;" onchange="handleChallengeUpload(${challenge.id}, this)">
-                        <button class="quiz-btn challenge-upload-btn" onclick="document.getElementById('challenge-${challenge.id}').click()">
-                            📸 Foto/Video aufnehmen
+                        <button class="quiz-btn challenge-upload-btn" onclick="completeChallenge(${challenge.id})">
+                            ✅ Challenge abschließen
                         </button>
                     </div>
                 `}
                 <button class="quiz-btn challenge-gallery-btn" onclick="showChallengeGallery(${challenge.id})">
-                    🖼️ Galerie & Abstimmung
+                    📊 Teilnahmen & Abstimmung
                 </button>
             </div>
         `;
@@ -1370,12 +1368,11 @@ function showChallengeGallery(challengeId) {
     // Get all submissions for this challenge
     const submissions = [];
     Object.keys(userChallenges).forEach(userId => {
-        if (userChallenges[userId][challengeId]?.imageData) {
+        if (userChallenges[userId][challengeId]) {
             const user = users.find(u => u.id === userId);
             submissions.push({
                 userId: userId,
                 userName: user ? user.name : 'Unbekannt',
-                imageData: userChallenges[userId][challengeId].imageData,
                 date: userChallenges[userId][challengeId].date
             });
         }
@@ -1418,20 +1415,17 @@ function showChallengeGallery(challengeId) {
             
             html += `
                 <div class="gallery-item">
-                    <div class="gallery-image-container">
-                        <img src="${submission.imageData}" alt="${submission.userName}" class="gallery-image">
-                        ${isVoted ? '<span class="vote-badge">✅ Deine Stimme</span>' : ''}
-                    </div>
                     <div class="gallery-info">
                         <span class="gallery-user">👤 ${submission.userName}</span>
                         <span class="gallery-votes">👍 ${voteCount} Stimmen</span>
+                        ${isVoted ? '<span class="vote-badge">✅ Deine Stimme</span>' : ''}
                     </div>
                     ${canVote ? `
                         <button class="quiz-btn vote-btn" onclick="voteForChallenge(${challengeId}, '${submission.userId}')">
-                            👍 Für dieses Foto stimmen
+                            👍 Für diese Teilnahme stimmen
                         </button>
                     ` : submission.userId === currentUser.id ? `
-                        <span class="vote-status">Dein Foto</span>
+                        <span class="vote-status">Deine Teilnahme</span>
                     ` : ''}
                 </div>
             `;
@@ -1564,33 +1558,23 @@ function updateAllUserPoints() {
     }
 }
 
-// Handle challenge upload
-function handleChallengeUpload(challengeId, input) {
-    if (!input.files || !input.files[0]) return;
+// Complete challenge (ohne Bilder)
+function completeChallenge(challengeId) {
+    if (!currentUser) return;
     
-    const file = input.files[0];
-    const reader = new FileReader();
+    // Save challenge completion (no points yet - only winner gets points)
+    if (!userChallenges[currentUser.id]) {
+        userChallenges[currentUser.id] = {};
+    }
     
-    reader.onload = function(e) {
-        const imageData = e.target.result;
-        
-        // Save challenge submission (no points yet - only winner gets points)
-        if (!userChallenges[currentUser.id]) {
-            userChallenges[currentUser.id] = {};
-        }
-        
-        userChallenges[currentUser.id][challengeId] = {
-            imageData: imageData,
-            date: new Date().toISOString()
-        };
-        
-        localStorage.setItem('quizChallenges', JSON.stringify(userChallenges));
-        
-        // Refresh challenges view
-        showChallenges();
+    userChallenges[currentUser.id][challengeId] = {
+        date: new Date().toISOString()
     };
     
-    reader.readAsDataURL(file);
+    localStorage.setItem('quizChallenges', JSON.stringify(userChallenges));
+    
+    // Refresh challenges view
+    showChallenges();
 }
 
 // Make functions globally available
@@ -1600,7 +1584,7 @@ window.showQuizDay = showQuizDay;
 window.loadQuizDay = loadQuizDay;
 window.submitQuiz = submitQuiz;
 window.showChallenges = showChallenges;
-window.handleChallengeUpload = handleChallengeUpload;
+window.completeChallenge = completeChallenge;
 window.showChallengeGallery = showChallengeGallery;
 window.voteForChallenge = voteForChallenge;
 
