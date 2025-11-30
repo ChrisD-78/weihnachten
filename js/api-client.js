@@ -1,10 +1,8 @@
 // API Client für Weihnachtskalender Backend
 // Ersetzt localStorage-Aufrufe durch API-Aufrufe
 
-// API URL - kann über window.API_CONFIG oder Environment Variable gesetzt werden
-const API_BASE_URL = (window.API_CONFIG && window.API_CONFIG.baseURL) || 
-                     (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || 
-                     'http://localhost:3000/api';
+// API URL - Netlify Functions
+const API_BASE_URL = '/.netlify/functions/api';
 
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
