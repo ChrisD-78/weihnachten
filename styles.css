@@ -1769,6 +1769,8 @@ body.loaded {
     width: 100%;
     padding: 0.8rem;
     font-size: 1rem;
+    color: #ff0000 !important;
+    font-weight: 700;
 }
 
 .challenge-completed {
@@ -1809,6 +1811,8 @@ body.loaded {
     margin-top: 1rem;
     padding: 0.8rem;
     font-size: 1rem;
+    color: #ff0000 !important;
+    font-weight: 700;
 }
 
 .challenge-gallery {
