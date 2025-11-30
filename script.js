@@ -380,8 +380,9 @@ function initCalendar() {
     const today = new Date().getDate();
     const currentMonth = new Date().getMonth();
     
-    // Only show calendar in December
-    const maxDay = (currentMonth === 11) ? Math.min(today, 24) : 24;
+    // Nur im Dezember aktiv, und nur das Türchen des aktuellen Tages kann geöffnet werden
+    const isDecember = currentMonth === 11;
+    const currentDay = isDecember ? today : 0;
     
     // Get opened doors from localStorage
     const openedDoors = JSON.parse(localStorage.getItem('openedDoors') || '[]');
@@ -392,11 +393,14 @@ function initCalendar() {
         door.dataset.day = i;
         
         const isOpen = openedDoors.includes(i);
-        const canOpen = i <= maxDay;
+        // Türchen kann nur geöffnet werden, wenn es der aktuelle Tag ist (und im Dezember)
+        const canOpen = isDecember && i === currentDay;
+        // Türchen ist gesperrt, wenn es noch nicht der richtige Tag ist
+        const isLocked = !isDecember || i > currentDay;
         
         if (isOpen) {
             door.classList.add('open');
-        } else if (!canOpen) {
+        } else if (isLocked) {
             door.classList.add('locked');
         }
         
@@ -452,6 +456,25 @@ function getDoorIcon(day) {
 function openDoor(day) {
     const door = document.querySelector(`.door[data-day="${day}"]`);
     if (!door || door.classList.contains('open')) return;
+    
+    // Prüfe, ob das Türchen heute geöffnet werden darf
+    const today = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const isDecember = currentMonth === 11;
+    
+    if (!isDecember) {
+        alert('❄️ Der Adventskalender ist nur im Dezember verfügbar!');
+        return;
+    }
+    
+    if (day !== today) {
+        if (day > today) {
+            alert(`⏰ Es ist noch zu früh! Türchen ${day} kann erst am ${day}. Dezember geöffnet werden.`);
+        } else {
+            alert(`📅 Türchen ${day} konnte nur am ${day}. Dezember geöffnet werden.`);
+        }
+        return;
+    }
     
     door.classList.add('opening');
     

@@ -1115,7 +1115,7 @@ function showQuizDay() {
     
     const today = new Date().getDate();
     const currentMonth = new Date().getMonth();
-    const maxDay = (currentMonth === 11) ? Math.min(today, 24) : 24;
+    const isDecember = currentMonth === 11;
     const userDayAnswers = userAnswers[currentUser.id] || {};
     const quizContent = document.getElementById('quizContent');
     
@@ -1124,25 +1124,66 @@ function showQuizDay() {
         return;
     }
     
+    if (!isDecember) {
+        quizContent.innerHTML = `
+            <div class="quiz-day-selection">
+                <h3>❄️ Quiz verfügbar im Dezember</h3>
+                <p class="quiz-message">Das Weihnachtsquiz ist nur im Dezember verfügbar. Komm bald wieder!</p>
+            </div>
+        `;
+        return;
+    }
+    
     let html = `
         <div class="quiz-day-selection">
-            <h3>Wähle einen Tag</h3>
-            <p class="quiz-message">Jeden Tag kannst du 3 Fragen beantworten und Punkte sammeln!</p>
+            <h3>Quiz für heute</h3>
+            <p class="quiz-message">Heute (${today}. Dezember) kannst du das Quiz für Tag ${today} beantworten!</p>
             <div class="quiz-days-grid">
     `;
     
-    for (let day = 1; day <= maxDay; day++) {
-        const dayKey = `day${day}`;
-        const answered = userDayAnswers[dayKey];
-        const isToday = day === today && currentMonth === 11;
-        
+    // Zeige nur den aktuellen Tag, wenn noch nicht beantwortet
+    const dayKey = `day${today}`;
+    const answered = userDayAnswers[dayKey];
+    
+    if (answered) {
         html += `
-            <button class="quiz-day-btn ${answered ? 'answered' : ''} ${isToday ? 'today' : ''}" 
-                    onclick="loadQuizDay(${day})" ${answered ? 'disabled' : ''}>
-                <span class="quiz-day-number">Tag ${day}</span>
-                ${answered ? `<span class="quiz-day-status">✅ ${userDayAnswers[dayKey].points}/3</span>` : '<span class="quiz-day-status">📝 Offen</span>'}
-                ${isToday ? '<span class="quiz-day-badge">Heute</span>' : ''}
+            <div class="quiz-day-info">
+                <p class="quiz-message">✅ Du hast das Quiz für Tag ${today} bereits beantwortet!</p>
+                <p class="quiz-message">Du hast ${answered.points} von 3 Punkten erreicht.</p>
+                <p class="quiz-message">Komm morgen wieder für das nächste Quiz!</p>
+            </div>
+        `;
+    } else {
+        html += `
+            <button class="quiz-day-btn today" onclick="loadQuizDay(${today})">
+                <span class="quiz-day-number">Tag ${today}</span>
+                <span class="quiz-day-status">📝 Jetzt beantworten</span>
+                <span class="quiz-day-badge">Heute</span>
             </button>
+        `;
+    }
+    
+    // Zeige auch bereits beantwortete Tage (nur zur Info)
+    const answeredDays = Object.keys(userDayAnswers).map(key => parseInt(key.replace('day', ''))).sort((a, b) => a - b);
+    if (answeredDays.length > 0) {
+        html += `
+            <div style="margin-top: 2rem;">
+                <h4>Bereits beantwortete Tage:</h4>
+                <div class="quiz-days-grid" style="margin-top: 1rem;">
+        `;
+        answeredDays.forEach(day => {
+            if (day !== today) {
+                html += `
+                    <button class="quiz-day-btn answered" disabled>
+                        <span class="quiz-day-number">Tag ${day}</span>
+                        <span class="quiz-day-status">✅ ${userDayAnswers[`day${day}`].points}/3</span>
+                    </button>
+                `;
+            }
+        });
+        html += `
+                </div>
+            </div>
         `;
     }
     
@@ -1156,7 +1197,37 @@ function showQuizDay() {
 
 // Load quiz for specific day
 function loadQuizDay(day) {
+    // Prüfe, ob das Quiz für diesen Tag heute beantwortet werden darf
+    const today = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const isDecember = currentMonth === 11;
+    
+    if (!isDecember) {
+        alert('❄️ Das Quiz ist nur im Dezember verfügbar!');
+        showQuizDay();
+        return;
+    }
+    
+    if (day !== today) {
+        if (day > today) {
+            alert(`⏰ Es ist noch zu früh! Das Quiz für Tag ${day} kann erst am ${day}. Dezember beantwortet werden.`);
+        } else {
+            alert(`📅 Das Quiz für Tag ${day} konnte nur am ${day}. Dezember beantwortet werden.`);
+        }
+        showQuizDay();
+        return;
+    }
+    
     const userDayAnswers = userAnswers[currentUser.id] || {};
+    const dayKey = `day${day}`;
+    
+    // Prüfe, ob bereits beantwortet
+    if (userDayAnswers[dayKey]) {
+        alert(`✅ Du hast das Quiz für Tag ${day} bereits beantwortet!`);
+        showQuizDay();
+        return;
+    }
+    
     const quizContent = document.getElementById('quizContent');
     quizContent.innerHTML = renderQuizDay(day, userDayAnswers);
 }
