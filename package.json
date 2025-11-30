@@ -1,0 +1,9 @@
+{
+  "name": "weihnachtskalender",
+  "version": "1.0.0",
+  "description": "Weihnachtskalender mit Netlify Functions und Neon PostgreSQL",
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}
+
