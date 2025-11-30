@@ -1205,7 +1205,7 @@ body.loaded {
     }
 }
 
-/* .snowflake-small {
+/* Schneeflocken-Animationen entfernt */
     font-size: 1.5rem;
     animation: spin 3s linear infinite, sparkleSmall 2s ease-in-out infinite;
     filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
