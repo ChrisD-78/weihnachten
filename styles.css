@@ -1780,11 +1780,11 @@ body.loaded {
 
 .challenge-status {
     display: block;
-    color: var(--primary-green);
+    color: var(--white);
     font-weight: 700;
     font-size: 1.1rem;
     margin-bottom: 1rem;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .challenge-image {
