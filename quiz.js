@@ -959,10 +959,28 @@ function renderQuizDay(day, userDayAnswers) {
 
 // Submit quiz answers
 function submitQuiz(day) {
+    // Prüfe nochmal, ob das Quiz für diesen Tag heute beantwortet werden darf
+    const today = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const isDecember = currentMonth === 11;
+    
+    if (!isDecember || day !== today) {
+        alert('⏰ Dieses Quiz kann heute nicht beantwortet werden!');
+        showQuizDay();
+        return;
+    }
+    
     const form = document.getElementById('quizForm');
     const formData = new FormData(form);
     const dayQuestions = quizQuestions[day - 1];
     const dayKey = `day${day}`;
+    
+    // Prüfe, ob bereits beantwortet
+    if (userAnswers[currentUser.id] && userAnswers[currentUser.id][dayKey]) {
+        alert('✅ Du hast dieses Quiz bereits beantwortet!');
+        showQuizDay();
+        return;
+    }
     
     let points = 0;
     const answers = {};
