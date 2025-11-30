@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Weihnachtskalender mit Netlify Functions und Neon PostgreSQL",
   "dependencies": {
+    "canvas": "^3.2.0",
     "pg": "^8.11.3"
   }
 }
-
