@@ -1,0 +1,11 @@
+# Neon PostgreSQL Database URL
+# Format: postgresql://username:password@hostname:port/database?sslmode=require
+# Kopiere diese Datei zu .env und füge deine Connection String ein
+DATABASE_URL=postgresql://username:password@ep-xxx-xxx.region.aws.neon.tech/dbname?sslmode=require
+
+# Server Port
+PORT=3000
+
+# Environment
+NODE_ENV=production
+
