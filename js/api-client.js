@@ -1,7 +1,10 @@
 // API Client für Weihnachtskalender Backend
 // Ersetzt localStorage-Aufrufe durch API-Aufrufe
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// API URL - kann über window.API_CONFIG oder Environment Variable gesetzt werden
+const API_BASE_URL = (window.API_CONFIG && window.API_CONFIG.baseURL) || 
+                     (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || 
+                     'http://localhost:3000/api';
 
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
@@ -21,86 +24,90 @@ async function apiCall(endpoint, options = {}) {
         return await response.json();
     } catch (error) {
         console.error('API Call Error:', error);
+        // Fallback to localStorage if API is not available
+        if (window.USE_LOCALSTORAGE_FALLBACK) {
+            console.warn('API not available, using localStorage fallback');
+            return null;
+        }
         throw error;
     }
 }
 
 // ========== USERS ==========
 
-export async function getUsers() {
+window.getUsers = async function() {
     return apiCall('/users');
-}
+};
 
-export async function getUser(userId) {
+window.getUser = async function(userId) {
     return apiCall(`/users/${userId}`);
-}
+};
 
-export async function createOrUpdateUser(userData) {
+window.createOrUpdateUser = async function(userData) {
     return apiCall('/users', {
         method: 'POST',
         body: JSON.stringify(userData)
     });
-}
+};
 
 // ========== OPENED DOORS ==========
 
-export async function getOpenedDoors(userId) {
+window.getOpenedDoors = async function(userId) {
     return apiCall(`/opened-doors/${userId}`);
-}
+};
 
-export async function addOpenedDoor(userId, day) {
+window.addOpenedDoor = async function(userId, day) {
     return apiCall('/opened-doors', {
         method: 'POST',
         body: JSON.stringify({ userId, day })
     });
-}
+};
 
 // ========== QUIZ ANSWERS ==========
 
-export async function getQuizAnswers(userId) {
+window.getQuizAnswers = async function(userId) {
     return apiCall(`/quiz-answers/${userId}`);
-}
+};
 
-export async function submitQuizAnswers(userId, day, answers, points) {
+window.submitQuizAnswers = async function(userId, day, answers, points) {
     return apiCall('/quiz-answers', {
         method: 'POST',
         body: JSON.stringify({ userId, day, answers, points })
     });
-}
+};
 
 // ========== CHALLENGES ==========
 
-export async function getChallengeSubmissions(challengeId) {
+window.getChallengeSubmissions = async function(challengeId) {
     return apiCall(`/challenges/${challengeId}/submissions`);
-}
+};
 
-export async function getUserChallenges(userId) {
+window.getUserChallenges = async function(userId) {
     return apiCall(`/challenges/user/${userId}`);
-}
+};
 
-export async function submitChallenge(userId, challengeId, imageData) {
+window.submitChallenge = async function(userId, challengeId, imageData) {
     return apiCall('/challenges/submit', {
         method: 'POST',
         body: JSON.stringify({ userId, challengeId, imageData })
     });
-}
+};
 
 // ========== CHALLENGE VOTES ==========
 
-export async function getChallengeVotes(challengeId) {
+window.getChallengeVotes = async function(challengeId) {
     return apiCall(`/challenges/${challengeId}/votes`);
-}
+};
 
-export async function submitVote(challengeId, voterId, votedForUserId) {
+window.submitVote = async function(challengeId, voterId, votedForUserId) {
     return apiCall('/challenges/vote', {
         method: 'POST',
         body: JSON.stringify({ challengeId, voterId, votedForUserId })
     });
-}
+};
 
 // ========== HEALTH CHECK ==========
 
-export async function checkHealth() {
+window.checkHealth = async function() {
     return apiCall('/health');
-}
-
+};

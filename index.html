@@ -158,6 +158,37 @@
         <p class="footer-note">Eine Geschichte über Familie, Liebe und das perfekte Weihnachtschaos</p>
     </footer>
 
+    <!-- API Configuration -->
+    <script>
+        // Lade API URL dynamisch
+        (async function() {
+            // Für lokale Entwicklung
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                window.API_CONFIG = { baseURL: 'http://localhost:3000/api' };
+                return;
+            }
+            
+            // Für Production: Versuche API URL von Netlify Function zu laden
+            try {
+                const response = await fetch('/.netlify/functions/get-api-url');
+                if (response.ok) {
+                    const data = await response.json();
+                    window.API_CONFIG = { baseURL: data.apiUrl };
+                    console.log('API URL loaded from Netlify Function:', data.apiUrl);
+                } else {
+                    throw new Error('Function not available');
+                }
+            } catch (error) {
+                console.warn('Netlify Function not available, using fallback');
+                // Fallback: Setze hier deine Railway API URL
+                // Diese URL wird verwendet, wenn die Netlify Function nicht verfügbar ist
+                window.API_CONFIG = {
+                    baseURL: 'https://your-api-url.railway.app/api' // ← ÄNDERE DIESE URL ZU DEINER RAILWAY URL!
+                };
+            }
+        })();
+    </script>
+    <script src="js/api-client.js"></script>
     <script src="script.js"></script>
     <script src="quiz.js"></script>
 </body>
