@@ -1329,6 +1329,9 @@ function showChallenges() {
                 ${completed ? `
                     <div class="challenge-completed">
                         <span class="challenge-status">✅ Challenge abgeschlossen</span>
+                        <button class="quiz-btn" onclick="resetChallenge(${challenge.id})" style="margin-top: 0.5rem; background: rgba(255, 0, 0, 0.3); color: #ff0000;">
+                            🔄 Challenge zurücksetzen
+                        </button>
                     </div>
                 ` : `
                     <div class="challenge-upload">
@@ -1577,6 +1580,40 @@ function completeChallenge(challengeId) {
     showChallenges();
 }
 
+// Reset challenge for current user
+function resetChallenge(challengeId) {
+    if (!currentUser) return;
+    
+    if (!confirm(`Möchtest du Challenge ${challengeId} wirklich zurücksetzen? Du kannst sie dann neu machen.`)) {
+        return;
+    }
+    
+    // Delete challenge completion
+    if (userChallenges[currentUser.id] && userChallenges[currentUser.id][challengeId]) {
+        delete userChallenges[currentUser.id][challengeId];
+        localStorage.setItem('quizChallenges', JSON.stringify(userChallenges));
+    }
+    
+    // Delete votes for this challenge where current user is involved
+    if (challengeVotes[challengeId]) {
+        // Delete votes where user voted
+        if (challengeVotes[challengeId][currentUser.id]) {
+            delete challengeVotes[challengeId][currentUser.id];
+        }
+        // Delete votes where user was voted for
+        Object.keys(challengeVotes[challengeId]).forEach(voterId => {
+            if (challengeVotes[challengeId][voterId] === currentUser.id) {
+                delete challengeVotes[challengeId][voterId];
+            }
+        });
+        localStorage.setItem('challengeVotes', JSON.stringify(challengeVotes));
+    }
+    
+    // Refresh challenges view
+    showChallenges();
+    alert('✅ Challenge zurückgesetzt! Du kannst sie jetzt neu machen.');
+}
+
 // Make functions globally available
 window.logout = logout;
 window.showRanking = showRanking;
@@ -1585,6 +1622,7 @@ window.loadQuizDay = loadQuizDay;
 window.submitQuiz = submitQuiz;
 window.showChallenges = showChallenges;
 window.completeChallenge = completeChallenge;
+window.resetChallenge = resetChallenge;
 window.showChallengeGallery = showChallengeGallery;
 window.voteForChallenge = voteForChallenge;
 
