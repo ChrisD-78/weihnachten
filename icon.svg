@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#0a0a0a"/>
+  <g transform="translate(256, 400)">
+    <rect x="-20" y="0" width="40" height="60" fill="#8B4513" rx="5"/>
+    <path d="M 0,-100 L -80,20 L 80,20 Z" fill="#228B22"/>
+    <path d="M 0,-150 L -100,0 L 100,0 Z" fill="#32CD32"/>
+    <path d="M 0,-200 L -120,-20 L 120,-20 Z" fill="#228B22"/>
+    <circle cx="-50" cy="-30" r="15" fill="#FF0000"/>
+    <circle cx="50" cy="-30" r="15" fill="#FFD700"/>
+    <circle cx="0" cy="-80" r="15" fill="#FF0000"/>
+    <path d="M 0,-220 L -10,-240 L 0,-250 L 10,-240 Z" fill="#FFD700"/>
+  </g>
+  <text x="100" y="100" font-size="40" fill="#FFFFFF" opacity="0.8">❄</text>
+  <text x="400" y="150" font-size="30" fill="#FFFFFF" opacity="0.7">❄</text>
+</svg>
