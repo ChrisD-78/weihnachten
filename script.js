@@ -573,75 +573,7 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// Create global snowflakes
-function createGlobalSnowflakes() {
-    const container = document.getElementById('globalSnowflakes');
-    if (!container) {
-        console.error('Global snowflakes container not found');
-        return;
-    }
-    
-    // Clear any existing snowflakes
-    container.innerHTML = '';
-    
-    const snowflakeCount = 20; // Weniger Schneeflocken
-    const snowflakeIcons = ['❄', '❅', '❆', '❄', '❅'];
-    const viewportHeight = window.innerHeight || 1000;
-    
-    for (let i = 0; i < snowflakeCount; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'global-snowflake';
-        snowflake.textContent = snowflakeIcons[i % snowflakeIcons.length];
-        
-        // Random position and properties
-        const left = Math.random() * 100;
-        const delay = Math.random() * 5;
-        const duration = 8 + Math.random() * 12; // 8-20 seconds
-        const size = 1 + Math.random() * 1.5; // 1-2.5rem
-        const horizontalDrift = -30 + Math.random() * 60; // -30px to 30px
-        
-        // Set base styles
-        snowflake.style.left = `${left}%`;
-        snowflake.style.fontSize = `${size}rem`;
-        snowflake.style.opacity = (0.6 + Math.random() * 0.4).toString();
-        
-        // Create unique animation for each snowflake using top property
-        const animationName = `snowfall-${i}`;
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ${animationName} {
-                0% {
-                    top: -50px;
-                    left: ${left}%;
-                    transform: translateX(0px) rotate(0deg);
-                    opacity: 0;
-                }
-                5% {
-                    opacity: 0.8;
-                }
-                90% {
-                    opacity: 0.8;
-                }
-                100% {
-                    top: ${viewportHeight + 50}px;
-                    left: ${left}%;
-                    transform: translateX(${horizontalDrift}px) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-            .global-snowflake[data-index="${i}"] {
-                animation: ${animationName} ${duration}s linear infinite, sparkle 3s ease-in-out infinite !important;
-                animation-delay: ${delay}s !important;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        snowflake.setAttribute('data-index', i);
-        container.appendChild(snowflake);
-    }
-    
-    console.log(`Created ${snowflakeCount} global snowflakes with animations`);
-}
+// Schneeflocken-Animation entfernt für bessere Performance
 
 // Handle navigation links
 function setupNavigation() {
@@ -684,7 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.scrollTop = 0;
     
     initCalendar();
-    createGlobalSnowflakes();
     setupNavigation();
     
     // Initialize quiz system - wait a bit for quiz.js to load
