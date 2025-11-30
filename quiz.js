@@ -627,10 +627,100 @@ function checkAuth() {
     }
 }
 
+// Render ranking HTML (extracted for reuse)
+function renderRankingHTML() {
+    // Reload data
+    challengeVotes = JSON.parse(localStorage.getItem('challengeVotes') || '{}');
+    
+    // Recalculate points for all users
+    updateAllUserPoints();
+    
+    const allUsers = JSON.parse(localStorage.getItem('quizUsers') || '[]');
+    const allUserAnswers = JSON.parse(localStorage.getItem('quizAnswers') || '{}');
+    
+    // Recalculate points for each user
+    allUsers.forEach(user => {
+        let totalPoints = 0;
+        
+        // Points from quiz answers
+        if (allUserAnswers[user.id]) {
+            Object.keys(allUserAnswers[user.id]).forEach(dayKey => {
+                totalPoints += allUserAnswers[user.id][dayKey].points;
+            });
+        }
+        
+        // Points from challenge wins (only winners get points)
+        challenges.forEach(challenge => {
+            const votes = challengeVotes[challenge.id] || {};
+            const voteCounts = {};
+            
+            Object.keys(votes).forEach(voterId => {
+                const votedFor = votes[voterId];
+                voteCounts[votedFor] = (voteCounts[votedFor] || 0) + 1;
+            });
+            
+            // Find winner
+            let maxVotes = 0;
+            let winnerId = null;
+            Object.keys(voteCounts).forEach(userId => {
+                if (voteCounts[userId] > maxVotes) {
+                    maxVotes = voteCounts[userId];
+                    winnerId = userId;
+                }
+            });
+            
+            // Award points to winner
+            if (winnerId === user.id && maxVotes > 0) {
+                totalPoints += challenge.points;
+            }
+        });
+        
+        user.totalPoints = totalPoints;
+    });
+    
+    const sortedUsers = [...allUsers].sort((a, b) => b.totalPoints - a.totalPoints);
+    
+    if (sortedUsers.length === 0) {
+        return `
+            <div class="quiz-ranking" style="margin-top: 2rem;">
+                <h3>🏆 Rangliste</h3>
+                <p class="quiz-message">Noch keine Teilnehmer. Sei der Erste!</p>
+            </div>
+        `;
+    }
+    
+    let html = `
+        <div class="quiz-ranking" style="margin-top: 2rem;">
+            <h3>🏆 Rangliste</h3>
+            <div class="ranking-list">
+    `;
+    
+    sortedUsers.forEach((user, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+        html += `
+            <div class="ranking-item">
+                <span class="ranking-position">${medal}</span>
+                <span class="ranking-name">${user.name}</span>
+                <span class="ranking-points">${user.totalPoints} Punkte</span>
+            </div>
+        `;
+    });
+    
+    html += `
+            </div>
+        </div>
+    `;
+    
+    return html;
+}
+
 // Show login/registration form
 function showLoginForm() {
     const quizContainer = document.querySelector('.quiz-container');
     if (!quizContainer) return;
+    
+    // Render ranking HTML
+    const rankingHTML = renderRankingHTML();
     
     quizContainer.innerHTML = `
         <h2 class="quiz-title">🎯 Weihnachtsquiz</h2>
@@ -652,6 +742,7 @@ function showLoginForm() {
                 </form>
             </div>
         </div>
+        ${rankingHTML}
     `;
     
     // Tab switching
@@ -996,7 +1087,7 @@ function showRanking() {
     
     sortedUsers.forEach((user, index) => {
         const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
-        const isCurrentUser = user.id === currentUser.id;
+        const isCurrentUser = currentUser && user.id === currentUser.id;
         html += `
             <div class="ranking-item ${isCurrentUser ? 'current-user' : ''}">
                 <span class="ranking-position">${medal}</span>
