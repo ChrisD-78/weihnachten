@@ -1,7 +1,8 @@
 // Script zum Zurücksetzen der Quiz-Daten für Christof und Kirstin
 // Führe dieses Script aus, um alle Quiz-Daten für diese Nutzer zu löschen
 
-const { Pool } = require('pg');
+import pkg from 'pg';
+const { Pool } = pkg;
 
 const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_xBIljAw81oSV@ep-aged-silence-ag2f6td1-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
 
